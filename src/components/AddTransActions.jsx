@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../context/GlobalStyles";
 
 const AddTransActions = () => {
-  const add
+  const { addTransaction } = useContext(GlobalContext);
+
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(0);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newTask = {
-      id: Math.random() * 100,
-      text: text,
-      amount: amount,
+      id: Math.random(Math.random() * 100).toFixed(2),
+      text,
+      amount: parseInt(amount),
     };
+    addTransaction(newTask);
   };
 
   return (
@@ -22,7 +26,7 @@ const AddTransActions = () => {
           <input
             onChange={(e) => setText(e.target.value)}
             type="text"
-            id="text"
+            value={text}
             placeholder="Enter text..."
           />
         </div>
@@ -34,7 +38,7 @@ const AddTransActions = () => {
           <input
             onChange={(e) => setAmount(e.target.value)}
             type="number"
-            id="amount"
+            value={amount}
             placeholder="Enter amount..."
           />
         </div>

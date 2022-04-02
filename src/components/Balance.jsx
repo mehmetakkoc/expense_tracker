@@ -1,10 +1,20 @@
-import React from "react";
+import { useContext } from "react";
+import { GlobalContext } from "../context/GlobalStyles";
 
 const Balance = () => {
+  const { transactions } = useContext(GlobalContext);
+  console.log(transactions);
+
+  const amounts = transactions.map(() => transactions.amount);
+
+  const total = amounts
+    .reduce((acc, item) => (acc += item.amount), 0)
+    .toFixed(2);
+
   return (
     <div>
       <h4>Your Balance</h4>
-      <h1 id="balance">$0.00</h1>
+      <h1>${total}</h1>
     </div>
   );
 };

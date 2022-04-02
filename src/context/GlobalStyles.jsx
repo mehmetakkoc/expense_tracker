@@ -1,18 +1,41 @@
-import { createContext, useReducer } from "react";
-import { initialState } from "./Reducer";
-import { reducer } from "./Reducer";
+import React, { createContext, useReducer } from "react";
+import Reducer from "./Reducer";
 
-export const GlobalContext = createContext();
+// Initial state
+const initialState = {
+  transactions: [],
+};
 
+// Create context
+export const GlobalContext = createContext(initialState);
+
+// Provider component
 export const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(Reducer, initialState);
 
-  const deleteBtn = (id) => {
-    dispatch({ type: "DELETE_BUTTON", payload: id });
-  };
+  // Actions
+  function deleteTransaction(id) {
+    dispatch({
+      type: "DELETE_TRANSACTION",
+      payload: id,
+    });
+  }
+
+  function addTransaction(transaction) {
+    dispatch({
+      type: "ADD_TRANSACTION",
+      payload: transaction,
+    });
+  }
 
   return (
-    <GlobalContext.Provider value={(state, deleteBtn)}>
+    <GlobalContext.Provider
+      value={{
+        transactions: state.transactions,
+        deleteTransaction,
+        addTransaction,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );
